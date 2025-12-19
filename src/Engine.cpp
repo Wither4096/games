@@ -40,7 +40,7 @@ const bool Engine::getIsRunning()const{
     return window->isOpen();
 }
 
-float Engine::getDeltaTime(){
+float Engine::getDeltaTime(){//Note: this gives the time since last frame was rendered, to convert from units per frame to units per second, multiply by 60
     return dtSeconds;
 }
 
@@ -74,8 +74,10 @@ void Engine::spawnEntity(){
     entity.setOutlineColor(sf::Color(255-red,255-green,255-blue));
     entity.setOutlineThickness(5.f);
 
-    float xSize = (rand()%75+1)+25;
-    float ySize = (rand()%75+1)+25;
+    const int maxSize=100;
+    const int minSize=25;
+    float xSize = (rand()%(maxSize-minSize)+1)+minSize;
+    float ySize = (rand()%(maxSize-minSize)+1)+minSize;
     entity.setSize({xSize,ySize});
 
     //ensure random position is within bounds, 80% of the entire window
@@ -111,7 +113,7 @@ void Engine::updateEntity(){
             entitySpawnTimer=0.f;
         }
         else{
-            entitySpawnTimer+=(60*getDeltaTime());
+            entitySpawnTimer+=(60.0*getDeltaTime());
         }
     }
 }
@@ -135,9 +137,11 @@ void Engine::ifMouseClicked(){
 }
 
 void Engine::updatePoints(){
+    const float speedIncreaseFactor=1.5;
+    const int difficultyIncreaseThreshold=50;
     points+=1;
-    if(points%50==0){
-        grav*=1.5;
+    if(points%difficultyIncreaseThreshold==0){
+        grav*=speedIncreaseFactor;
     }
 }
 
@@ -161,13 +165,12 @@ void Engine::displayFramerate(){
 void Engine::displayHealth(){
     std::string healthText=std::to_string(health);
     sf::Text healthDisplayText(textFont,"Health: "+healthText,32);
-    switch(health){
-        case 10: case 9: case 8:
-        healthDisplayText.setFillColor(sf::Color::Green);break;
-        case 7: case 6: case 5: case 4:
-        healthDisplayText.setFillColor(sf::Color::Yellow);break;
-        case 3: case 2: case 1:
-        healthDisplayText.setFillColor(sf::Color::Red);break;
+    if(health>=8){
+        healthDisplayText.setFillColor(sf::Color::Green);
+    }else if(health<=7&&health>=4){
+        healthDisplayText.setFillColor(sf::Color::Yellow);
+    }else{
+        healthDisplayText.setFillColor(sf::Color::Red);
     }
     window->draw(healthDisplayText);
 }
@@ -185,7 +188,7 @@ void Engine::update(){
     pollEvents();
     setDeltaTimeSeconds();
     setMousePosWindow();
-    applyEntityGravity(((grav/4.0)*60.0),getDeltaTime());
+    applyEntityGravity((60.0*(grav/4.0)),getDeltaTime());
     ifMouseClicked();
     deleteOOB();
     updateEntity();
