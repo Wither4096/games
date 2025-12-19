@@ -46,6 +46,7 @@ class Engine{
     std::vector<sf::RectangleShape> entityVect;
     float entitySpawnTimer;
     float entitySpawnTimerMax;
+    float grav;
     int maxEntities;
     const int healthMax=10;
     int health;
@@ -82,6 +83,7 @@ public:
     void ifMouseClicked();
     void deleteOOB();
     void updateHealth(bool skillChecked=false);
+    void updatePoints();
 
     void displayScore();
     void displayFramerate();

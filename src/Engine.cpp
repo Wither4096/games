@@ -5,9 +5,10 @@ void Engine::initVariables(){
     points=0;
     entitySpawnTimer=0.f;
     entitySpawnTimerMax=30.f;
+    grav=9.81;
     maxEntities=10;
     health=10;
-    textFont=sf::Font("Resources/fonts/JetBrainsMono-Regular.ttf");
+    textFont=sf::Font("data/fonts/JetBrainsMono-Regular.ttf");
 }
 
 void Engine::initWindow(){
@@ -126,10 +127,17 @@ void Engine::ifMouseClicked(){
         if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)){
             if(entityVect[i].getGlobalBounds().contains(mousePosView)){
                 entityVect.erase(entityVect.begin()+i);
-                points+=1;
+                updatePoints();
                 updateHealth(true);
             }
         }
+    }
+}
+
+void Engine::updatePoints(){
+    points+=1;
+    if(points%50==0){
+        grav*=1.5;
     }
 }
 
@@ -169,7 +177,7 @@ void Engine::update(){
     pollEvents();
     setDeltaTimeSeconds();
     setMousePosWindow();
-    applyEntityGravity(((9.81/4.0)*60.0),getDeltaTime());
+    applyEntityGravity(((grav/4.0)*60.0),getDeltaTime());
     ifMouseClicked();
     deleteOOB();
     updateEntity();
