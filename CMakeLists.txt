@@ -5,7 +5,6 @@ find_package(SFML 3 COMPONENTS Graphics Audio Window System REQUIRED)
 
 set(OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/output) #set location where final binary and resources are located
 set(RESOURCE_FILES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/data) 
-file(MAKE_DIRECTORY ${OUTPUT_DIR}) #makedir
 
 add_executable(click src/main.cpp src/Engine.cpp)
 
