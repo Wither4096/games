@@ -4,7 +4,7 @@ void Engine::initVariables(){
     window=nullptr;
     points=0;
     entitySpawnTimer=0.f;
-    entitySpawnTimerMax=600.f;
+    entitySpawnTimerMax=30.f;
     maxEntities=10;
     health=10;
     textFont=sf::Font("Resources/fonts/JetBrainsMono-Regular.ttf");
