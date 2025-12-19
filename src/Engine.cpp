@@ -161,6 +161,14 @@ void Engine::displayFramerate(){
 void Engine::displayHealth(){
     std::string healthText=std::to_string(health);
     sf::Text healthDisplayText(textFont,"Health: "+healthText,32);
+    switch(health){
+        case 10: case 9: case 8:
+        healthDisplayText.setFillColor(sf::Color::Green);break;
+        case 7: case 6: case 5: case 4:
+        healthDisplayText.setFillColor(sf::Color::Yellow);break;
+        case 3: case 2: case 1:
+        healthDisplayText.setFillColor(sf::Color::Red);break;
+    }
     window->draw(healthDisplayText);
 }
 
