@@ -6,7 +6,6 @@
 #include<cstdlib>
 #include<string>
 #include<vector>
-#include<unistd.h>
 
 #include<SFML/Graphics.hpp>
 #include<SFML/Audio.hpp>
