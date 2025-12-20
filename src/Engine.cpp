@@ -191,7 +191,7 @@ void Engine::deleteOOB(){
 
 void Engine::update(){
     if(gameEnd){
-        displayGameOver();
+        return;
     }else{
         pollEvents();
         setDeltaTimeSeconds();
@@ -214,8 +214,8 @@ void Engine::displayGameOver(){
     sf::Text playAgain(textFont,"Press R to play again",32);
     sf::Text quitGame(textFont,"or Esc to quit",24);
     gameOver.setPosition({windowXSize/2-(gameOver.getGlobalBounds().getCenter().x),windowYSize/2-(gameOver.getGlobalBounds().getCenter().y)});
-    playAgain.setPosition({windowXSize/2-(playAgain.getGlobalBounds().getCenter().x),windowYSize/2-(playAgain.getGlobalBounds().getCenter().y)+(gameOver.getGlobalBounds().getCenter().y)-gameOver.getCharacterSize()});
-    quitGame.setPosition({windowXSize/2-(quitGame.getGlobalBounds().getCenter().x),windowYSize/2-(quitGame.getGlobalBounds().getCenter().y)+(playAgain.getGlobalBounds().getCenter().y)-playAgain.getCharacterSize()});
+    playAgain.setPosition({windowXSize/2-(playAgain.getGlobalBounds().getCenter().x),windowYSize/2-(playAgain.getGlobalBounds().getCenter().y)+(gameOver.getCharacterSize())});
+    quitGame.setPosition({windowXSize/2-(quitGame.getGlobalBounds().getCenter().x),windowYSize/2-(quitGame.getGlobalBounds().getCenter().y)+(playAgain.getCharacterSize()+gameOver.getCharacterSize())});
     //^ FUCK THIS POSITONING 
     //^^FIX IT LATER
     window->clear();
