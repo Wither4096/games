@@ -41,7 +41,8 @@ const bool Engine::getIsRunning()const{
     return window->isOpen();
 }
 
-float Engine::getDeltaTime(){//Note: this gives the time since last frame was rendered, to convert from units per frame to units per second, multiply by 60
+float Engine::getDeltaTime(){
+    //Note: this gives the time since last frame was rendered, to convert from units per frame to units per second, multiply by 60
     return dtSeconds;
 }
 
@@ -213,9 +214,16 @@ void Engine::displayGameOver(){
     sf::Text gameOver(textFont,"GAME OVER",64);
     sf::Text playAgain(textFont,"Press R to play again",32);
     sf::Text quitGame(textFont,"or Esc to quit",24);
-    gameOver.setPosition({windowXSize/2-(gameOver.getGlobalBounds().getCenter().x),windowYSize/2-(gameOver.getGlobalBounds().getCenter().y)});
-    playAgain.setPosition({windowXSize/2-(playAgain.getGlobalBounds().getCenter().x),windowYSize/2-(playAgain.getGlobalBounds().getCenter().y)+(gameOver.getCharacterSize())});
-    quitGame.setPosition({windowXSize/2-(quitGame.getGlobalBounds().getCenter().x),windowYSize/2-(quitGame.getGlobalBounds().getCenter().y)+(playAgain.getCharacterSize()+gameOver.getCharacterSize())});
+
+    gameOver.setPosition({windowXSize/2-(gameOver.getGlobalBounds().getCenter().x),
+        windowYSize/2-(gameOver.getGlobalBounds().getCenter().y)});
+
+    playAgain.setPosition({windowXSize/2-(playAgain.getGlobalBounds().getCenter().x),
+        windowYSize/2-(playAgain.getGlobalBounds().getCenter().y)+(gameOver.getCharacterSize())});
+
+    quitGame.setPosition({windowXSize/2-(quitGame.getGlobalBounds().getCenter().x),
+        windowYSize/2-(quitGame.getGlobalBounds().getCenter().y)+(playAgain.getCharacterSize()+gameOver.getCharacterSize())});
+
     //^ FUCK THIS POSITONING 
     //^^FIX IT LATER
     window->clear();
