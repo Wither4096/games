@@ -8,6 +8,7 @@ void Engine::initVariables(){
     grav=9.81;
     maxEntities=10;
     health=10;
+    gameEnd=false;
     textFont=sf::Font("data/fonts/JetBrainsMono-Regular.ttf");
 }
 
@@ -42,6 +43,10 @@ const bool Engine::getIsRunning()const{
 
 float Engine::getDeltaTime(){//Note: this gives the time since last frame was rendered, to convert from units per frame to units per second, multiply by 60
     return dtSeconds;
+}
+
+const bool Engine::getGameStatusEnd()const{
+    return gameEnd;
 }
 
 void Engine::pollEvents(){ //poll Loop
@@ -100,7 +105,7 @@ void Engine::updateHealth(bool skillChecked){
     else{
         health-=1;
         if(health==0){
-            window->close();
+            gameEnd=true;
         }
     }
 }
@@ -185,13 +190,17 @@ void Engine::deleteOOB(){
 }
 
 void Engine::update(){
-    pollEvents();
-    setDeltaTimeSeconds();
-    setMousePosWindow();
-    applyEntityGravity((60.0*(grav/4.0)),getDeltaTime());
-    ifMouseClicked();
-    deleteOOB();
-    updateEntity();
+    if(gameEnd){
+        displayGameOver();
+    }else{
+        pollEvents();
+        setDeltaTimeSeconds();
+        setMousePosWindow();
+        applyEntityGravity((60.0*(grav/4.0)),getDeltaTime());
+        ifMouseClicked();
+        deleteOOB();
+        updateEntity();
+    }
 }
 
 void Engine::renderEntity(){
@@ -200,11 +209,44 @@ void Engine::renderEntity(){
     }
 }
 
-void Engine::render(){
+void Engine::displayGameOver(){
+    sf::Text gameOver(textFont,"GAME OVER",64);
+    sf::Text playAgain(textFont,"Press R to play again",32);
+    sf::Text quitGame(textFont,"or Esc to quit",24);
+    gameOver.setPosition({windowXSize/2-(gameOver.getGlobalBounds().getCenter().x),windowYSize/2-(gameOver.getGlobalBounds().getCenter().y)});
+    playAgain.setPosition({windowXSize/2-(playAgain.getGlobalBounds().getCenter().x),windowYSize/2-(playAgain.getGlobalBounds().getCenter().y)+(gameOver.getGlobalBounds().getCenter().y)-gameOver.getCharacterSize()});
+    quitGame.setPosition({windowXSize/2-(quitGame.getGlobalBounds().getCenter().x),windowYSize/2-(quitGame.getGlobalBounds().getCenter().y)+(playAgain.getGlobalBounds().getCenter().y)-playAgain.getCharacterSize()});
+    //^ FUCK THIS POSITONING 
+    //^^FIX IT LATER
     window->clear();
-    renderEntity();
-    displayScore();
-    displayHealth();
-    displayFramerate();
+    window->draw(gameOver);
+    window->draw(playAgain);
+    window->draw(quitGame);
     window->display();
+    if(health<=0){
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R)){
+        gameEnd=false;
+        health=healthMax;
+        points=0;
+        window->clear();
+        entityVect.clear();
+        }
+    }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)){
+        window->close();
+    }
+}
+
+void Engine::render(){
+    if(gameEnd){
+        displayGameOver();
+    }
+    else{
+        window->clear();
+        renderEntity();
+        displayScore();
+        displayHealth();
+        displayFramerate();
+        window->display();
+    }
 }

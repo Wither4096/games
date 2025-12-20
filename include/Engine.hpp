@@ -6,6 +6,7 @@
 #include<cstdlib>
 #include<string>
 #include<vector>
+#include<unistd.h>
 
 #include<SFML/Graphics.hpp>
 #include<SFML/Audio.hpp>
@@ -50,7 +51,8 @@ class Engine{
     int maxEntities;
     const int healthMax=10;
     int health;
-    int points;
+    unsigned int points;
+    bool gameEnd;
 
     //inti Funtions
     void initVariables();
@@ -64,6 +66,7 @@ public:
     //Getters
     const bool getIsRunning()const;
     float getDeltaTime();
+    const bool getGameStatusEnd()const;
 
     //Setters
     void setMousePosWindow();
@@ -88,6 +91,7 @@ public:
     void displayScore();
     void displayFramerate();
     void displayHealth();
+    void displayGameOver();
 
     void update();
     void render();
