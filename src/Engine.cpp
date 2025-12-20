@@ -153,8 +153,7 @@ void Engine::updatePoints(){
 void Engine::displayScore(){
     std::string gameScore=std::to_string(points);
     sf::Text scoreText(textFont,"Score: "+gameScore,32);
-
-    scoreText.setPosition({windowXSize/2.0-130,0}); //also ignore this
+    scoreText.setPosition({windowXSize/2.0-scoreText.getGlobalBounds().getCenter().x,0}); //also ignore this
     window->draw(scoreText);
 }
 
@@ -163,7 +162,7 @@ void Engine::displayFramerate(){
     std::string frameRate=std::to_string(frames);
     sf::Text frameRateText(textFont,"FPS: "+frameRate,32);
 
-    frameRateText.setPosition({windowXSize-224,0}); //also ALSO ignore this
+    frameRateText.setPosition({windowXSize-2*(frameRateText.getGlobalBounds().getCenter().x),0}); //also ALSO ignore this
     window->draw(frameRateText);
 }
 
@@ -191,6 +190,7 @@ void Engine::deleteOOB(){
 
 void Engine::update(){
     if(gameEnd){
+        setDeltaTimeSeconds();
         return;
     }else{
         pollEvents();
@@ -222,6 +222,7 @@ void Engine::displayGameOver(){
     window->draw(gameOver);
     window->draw(playAgain);
     window->draw(quitGame);
+    displayFramerate();
     window->display();
     if(health<=0){
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R)){
