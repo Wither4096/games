@@ -163,7 +163,7 @@ void Engine::displayFramerate(){
     std::string frameRate=std::to_string(frames);
     sf::Text frameRateText(textFont,"FPS: "+frameRate,32);
 
-    frameRateText.setPosition({windowXSize-2*(frameRateText.getGlobalBounds().getCenter().x),0}); //also ALSO ignore this
+    frameRateText.setPosition({windowXSize-256,0}); //also ALSO ignore this
     window->draw(frameRateText);
 }
 
