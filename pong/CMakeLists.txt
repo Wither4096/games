@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 4.0)
+project(pong VERSION 1.0)
+find_package(SFML 3 COMPONENTS Graphics Window System REQUIRED)
+
+set(OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/output)
+set(RESOURCE_FILES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/data) 
+add_executable(pong src/main.cpp src/Engine.cpp src/Game.cpp)
+set_target_properties(pong PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR})
+target_include_directories(pong PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_link_libraries(pong PUBLIC SFML::Graphics SFML::Window SFML::System)
+file(COPY ${RESOURCE_FILES_DIR} DESTINATION ${OUTPUT_DIR})
