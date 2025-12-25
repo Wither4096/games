@@ -29,9 +29,11 @@ class Engine{
     unsigned int desktopXSize=desktopVMode.size.x;
     unsigned int desktopYSize=desktopVMode.size.y;
     sf::VideoMode windowVMode = sf::VideoMode({desktopXSize/2,desktopYSize/2});
+
     //get the individual size of components of window
     unsigned int windowXSize=windowVMode.size.x;
     unsigned int windowYSize=windowVMode.size.y;
+
     //define play area as 80% of window
     int playAreaBoundMaxX=windowXSize*0.80;
     int playAreaBoundMaxY=windowYSize*0.80;
