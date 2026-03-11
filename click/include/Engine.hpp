@@ -54,6 +54,8 @@ class Engine{
     int health;
     unsigned int points;
     bool gameEnd;
+    bool lastMouseStateClicked;
+    bool currentMouseStateClicked;
 
     //inti Funtions
     void initVariables();

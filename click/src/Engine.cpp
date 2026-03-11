@@ -9,6 +9,7 @@ void Engine::initVariables(){
     maxEntities=10;
     health=10;
     gameEnd=false;
+    lastMouseStateClicked=false;
     textFont=sf::Font("data/fonts/JetBrainsMono-Regular.ttf");
 }
 
@@ -131,15 +132,24 @@ void Engine::applyEntityGravity(float grav,float dtSeconds){
 }
 
 void Engine::ifMouseClicked(){
+    currentMouseStateClicked=sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
     for(int i=0;i<entityVect.size();i++){
-        if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)){
+        if(lastMouseStateClicked==false&&currentMouseStateClicked==true){
             if(entityVect[i].getGlobalBounds().contains(mousePosView)){
                 entityVect.erase(entityVect.begin()+i);
                 updatePoints();
                 updateHealth(true);
             }
         }
+        //if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)){
+        //    if(entityVect[i].getGlobalBounds().contains(mousePosView)){
+        //        entityVect.erase(entityVect.begin()+i);
+        //        updatePoints();
+        //        updateHealth(true);
+        //    }
+        //}
     }
+    lastMouseStateClicked=currentMouseStateClicked;
 }
 
 void Engine::updatePoints(){
